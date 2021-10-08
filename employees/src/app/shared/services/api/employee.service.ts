@@ -13,9 +13,9 @@ export class EmployeeService {
   private URL = EndPoints.BASE_URL
   private allEmployeeApiUrl = EndPoints.ALL_EMPLOYEE_ENDPOINT;
   private newEmployeeApiUrl = EndPoints.NEW_EMPLOYEE_ENDPOINT;
-  // private filterEmployeeApiUrl = EndPoints.FILTER_ENDPOINT;
-  // private editEmployeeApiUrl = EndPoints.EDIT_EMPLOYEE_ENDPOINT;
   private deleteEmployeeApiUrl = EndPoints.DELETE_ENDPOINT_ENDPOINT;
+  private editEmployeeApiUrl = EndPoints.EDIT_EMPLOYEE_ENDPOINT;
+  
 
   // formData: Employee = new Employee();
   list: Employee[];
@@ -25,29 +25,19 @@ export class EmployeeService {
     return this.http.get<Employee[]>(this.allEmployeeApiUrl);
   }
  
-  getEmployeeById(id: string): Observable<Employee> {  
+  getEmployeeById(id: number): Observable<Employee> {  
     return this.http.get<Employee>(`${this.allEmployeeApiUrl}/${id}`);  
   }  
- 
   createEmployee(data: any): Observable<any> {
     return this.http.post(this.newEmployeeApiUrl, data);
   }
-  // updateEmployee(id: number, data:any): Observable<Employee> {
-  //   return this.http.put(`${this.editEmployeeApiUrl}/${id}`, data );
-  // }
-
   deleteEmployeeDetails(id: number): Observable<any> {
     return this.http.delete(`${this.deleteEmployeeApiUrl}/${id}`);
   }
+  updateEmployee(id: number,editProfile): Observable<Employee> {
+    return this.http.put(`${this.editEmployeeApiUrl}/${id}`, editProfile );
+  }
 
-  // searchByName(name: string): Observable<any> {
-  //   return this.http.get(`${this.filterEmployeeApiUrl}?EmployeeName=${name}`);
-  // }
-
-  // refreshList() {
-  //   this.http.get(this.URL)
-  //     .toPromise()
-  //     .then(res => this.list = res as Employee[]);
-  // }
+ 
 
 }

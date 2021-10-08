@@ -6,7 +6,7 @@ import {Message} from 'primeng/api';
 import {MessageService} from 'primeng/api';
 import {DialogService} from 'primeng/dynamicdialog';
 import {AddComponent} from '../add/add.component';
-
+import { EditComponent} from "../edit/edit.component"
 @Component({
   selector: 'app-index',
   templateUrl: './index.component.html',
@@ -19,7 +19,7 @@ export class IndexComponent implements OnInit {
   totalRecords: number;
   msgs: Message[] = [];
   selectedEmployees: Employee[];
-
+  displayBasic: boolean;
   constructor(
     private service: EmployeeService,
     private confirmationService: ConfirmationService,
@@ -47,46 +47,40 @@ export class IndexComponent implements OnInit {
         }
     });
 }
-  deleteEmployee(id,index) {
+  deleteEmployee(id) {
     this.confirmationService.confirm({
       message: 'Do you want to delete this employee?',
       header: 'Delete Confirmation',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.service.deleteEmployeeDetails(id).subscribe(res=>{
+         
               // if(res.status==200){
-                this.list.splice(index ,1)
+                let index= this.list.findIndex(e => e.id === id)
+                      if(index !== -1){
+                        this.list.splice(index,1)
+                      }
                 this.messageService.add({severity:'success', summary:'Successful', detail:'Employee Deleted'});
               // }
             })  
           
-      },
-      reject: () => {
-        this.messageService.add({severity:'info', summary:'Rejected', detail:'You have rejected'});
       }
+    
   });
 }
-
-// deleteEmployee(id: number) {  
-//       this.confirmationService.confirm({
-//           message: 'Do you want to delete this employee?',
-//           header: 'Delete Confirmation',
-//           icon: 'pi pi-exclamation-triangle',
-//           accept: () => {
-//             let index= this.list.findIndex(e => e.id === id)
-//             if(index !== -1){
-//               this.list.splice(index,1)
-//             }
-//             this.messageService.add({severity:'error', summary:'Deleted Successfully', detail:'Employee Deleted'});
-                   
-//           }
-//       });
- 
-// }
-addEmployee(){
+addEmployeeDialog(){
+  this.displayBasic = true;
   const ref = this.dialogService.open(AddComponent, {
-    header: 'Add Employee',
-   
+    header: "Add Employee",
+    width: '30%'
+});
+// ref.onClose.subscribe((employee: Employee) => {
+//       this.messageService.add({severity:'info', summary: 'Car Selected', detail:'Vin:'});
+// });
+}
+editEmployeeDialog(){
+  const ref = this.dialogService.open(EditComponent, {
+    header: "Edit Employee",
     width: '30%'
 });
 }

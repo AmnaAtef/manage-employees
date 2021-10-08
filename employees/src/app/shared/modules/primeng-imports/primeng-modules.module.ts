@@ -15,6 +15,7 @@ import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
+import {DividerModule} from 'primeng/divider';
 
 const PRIMENG_IMPORTS = [
   LayoutModule,
@@ -31,7 +32,8 @@ const PRIMENG_IMPORTS = [
   ConfirmDialogModule,
   MessagesModule,
   MessageModule,
-  DynamicDialogModule
+  DynamicDialogModule,
+  DividerModule
 ]
 
 

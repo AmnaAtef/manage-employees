@@ -9,12 +9,13 @@
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [globalFilterFields]="['name','list.start_date','list.active','list.note']"
     [(selection)]="selectedEmployees" [rowHover]="true"
+   
     >
     
       <ng-template pTemplate="caption">
         <div class="d-flex p-ai-center justify-content-between">
             <div>
-                <button pButton pRipple label="Add New Employee" icon="pi pi-plus" class="p-button-success mx-2" (click)="addEmployee()"></button>
+                <button pButton pRipple label="Add New Employee" icon="pi pi-plus" class="p-button-success mx-2" (click)="addEmployeeDialog()"></button>
                 <button pButton pRipple [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedEmployees()" [disabled]="!selectedEmployees || !selectedEmployees.length"></button>
             </div>
             <span class="p-input-icon-left">
@@ -33,31 +34,31 @@
                       Name <i class="pi pi-sort"></i>
                 </th>
                   <th>Email</th>
-                  <th>Address</th>
-                  <th>Note</th>
+                  <th pSortableColumn="address">
+                    Address <i class="pi pi-sort"></i>
+                  </th>
                   <th>Phone</th>
                   <th>Actions</th>
               </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-list let i>
+          <ng-template pTemplate="body" let-list>
               <tr>
                 <td>
                     <p-tableCheckbox [value]="list"></p-tableCheckbox>
                 </td>
-                  <td>{{list.id}}</td>
-                  <td>{{list.Name}}</td>
-                  <td>{{list.Phone}}</td>
-                  <td>{{list.Email}}</td>
-                  <td>{{list.Address}}</td>
+                  <td>{{list.name}}</td>
+                  <td>{{list.email}}</td>
+                  <td>{{list.address}}</td>
+                  <td>{{list.phone}}</td>
                   <td>
-                    <button pButton pRipple icon="pi pi-pencil" type="button" class="p-button-raised p-button-rounded p-button-warning mx-2"></button>
-                    <button pButton pRipple icon="pi pi-trash" (click)="deleteEmployee(list.id, i)" type="button" class="p-button-raised p-button-rounded p-button-danger"></button>
+                    <button pButton pRipple icon="pi pi-pencil" (click)="editEmployeeDialog()" type="button" class="p-button-raised p-button-rounded p-button-warning mx-2"></button>
+                    <button pButton pRipple icon="pi pi-trash" (click)="deleteEmployee(list.id)" type="button" class="p-button-raised p-button-rounded p-button-danger"></button>
                   </td>
               </tr>
           </ng-template>
               <ng-template pTemplate="emptymessage">
             <tr>
-                <td colspan="5">No employees found.</td>
+                <td colspan="6">No employees found.</td>
             </tr>
         </ng-template>
         </p-table>

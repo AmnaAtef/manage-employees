@@ -16,7 +16,7 @@ export class AddComponent implements OnInit {
   submitted = false;
   Employee = new Employee;
   EmployeeForm: FormGroup;
- 
+
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService, 
@@ -32,17 +32,10 @@ export class AddComponent implements OnInit {
     this.EmployeeForm = this.fb.group({
       name: [null, [Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]{2,}")]],
       email: [null, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{3}$")]],
-      mobile:[null,[ Validators.required, Validators.pattern("01(0|1|2|5)[0-9]{8}$")]],
+      phone:[null,[ Validators.required, Validators.pattern("01(0|1|2|5)[0-9]{8}$")]],
       address: [null, Validators.required]
 
     });
-   
-    // this.contactForm.patchValue({
-    //   name: '',
-    //   email: '',
-    //   subject: '',
-    //   message: ''
-    // });
   }
   get f() {
     return this.EmployeeForm.controls;
@@ -56,15 +49,13 @@ export class AddComponent implements OnInit {
 
     if (this.EmployeeForm.valid == true) {
       this.employeeService.createEmployee(this.Employee).subscribe(res => {
-        if (res.status == 200) {
-          // this.sweetAlert.afterSubmit('true', );
-      
-          // this.contactForm.patchValue({
-          //   name: null,
-          //   email: null,
-          //   subject: null,
-          //   message: null
-          // });
+        // if (res.status == 200) {
+          this.EmployeeForm.patchValue({
+            name: null,
+            email: null,
+            phone: null,
+            address: null
+          });
 
           // after reset disable error message
           this.submitted = false;
@@ -72,12 +63,12 @@ export class AddComponent implements OnInit {
           this.EmployeeForm.reset()
           this.messageService.add({severity:'success',
           summary: 'Success', detail: 'Employee added Successfully'});
-        }
+        // }
        
-        else {
+        // else {
           // this.sweetAlert.afterSubmit('false', 'Please Check Your Feild Again')
         
-        }
+        // }
       })
 
     }
