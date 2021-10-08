@@ -42,7 +42,6 @@ export class AddComponent implements OnInit {
   }
 
   addEmployee() {
-
     this.Employee = this.EmployeeForm.value;
     this.isFormValid.afterSubmit(this.EmployeeForm);
     this.submitted = true;
@@ -57,12 +56,13 @@ export class AddComponent implements OnInit {
             address: null
           });
 
-          // after reset disable error message
           this.submitted = false;
-
           this.EmployeeForm.reset()
           this.messageService.add({severity:'success',
           summary: 'Success', detail: 'Employee added Successfully'});
+          setTimeout(() =>{
+            window.location.reload();
+          }, 2000);
         // }
        
         // else {

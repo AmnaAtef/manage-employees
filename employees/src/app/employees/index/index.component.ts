@@ -54,7 +54,6 @@ export class IndexComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.service.deleteEmployeeDetails(id).subscribe(res=>{
-         
               // if(res.status==200){
                 let index= this.list.findIndex(e => e.id === id)
                       if(index !== -1){
@@ -62,8 +61,7 @@ export class IndexComponent implements OnInit {
                       }
                 this.messageService.add({severity:'success', summary:'Successful', detail:'Employee Deleted'});
               // }
-            })  
-          
+            })   
       }
     
   });
@@ -74,14 +72,13 @@ addEmployeeDialog(){
     header: "Add Employee",
     width: '30%'
 });
-// ref.onClose.subscribe((employee: Employee) => {
-//       this.messageService.add({severity:'info', summary: 'Car Selected', detail:'Vin:'});
-// });
+
 }
-editEmployeeDialog(){
+editEmployeeDialog(id){
   const ref = this.dialogService.open(EditComponent, {
     header: "Edit Employee",
-    width: '30%'
+    width: '30%',
+    data: {id: id}
 });
 }
 

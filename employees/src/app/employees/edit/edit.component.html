@@ -8,7 +8,6 @@
             </span> 
             <span *ngIf="f.name?.errors  && submitted " class="has-error">
                       <label *ngIf="f.name?.errors.required" class="control-label text-danger">Name Field is Required</label>
-                      <label *ngIf="f.name?.errors.pattern" class="control-label text-danger">Name may only contain alphabetic characters</label>
             </span>
         </div>
     </div>

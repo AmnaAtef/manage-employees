@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidationAfterSubmit } from '../../shared/plugins';
 import { Employee } from '../../shared/models/employee.model';
-import { Observable, from } from 'rxjs';
 import { EmployeeService } from '../../shared/services/api';
 import {MessageService} from 'primeng/api';
+import {DynamicDialogConfig} from 'primeng/dynamicdialog';
+
 
 @Component({
   selector: 'app-edit',
@@ -23,8 +24,12 @@ export class EditComponent implements OnInit {
     private fb: FormBuilder,
     private employeeService: EmployeeService, 
     private isFormValid: ValidationAfterSubmit,
-    private messageService: MessageService
-  ) { }
+    private messageService: MessageService,
+    public config: DynamicDialogConfig
+
+     ) { 
+      console.log(config.data)
+    }
 
   ngOnInit(): void {
     this.initForm()
@@ -32,20 +37,20 @@ export class EditComponent implements OnInit {
 
   private initForm() {
     this.EmployeeForm = this.fb.group({
-      name: [null, [Validators.required, Validators.pattern("[a-zA-Z][a-zA-Z ]{2,}")]],
+      name: [null, Validators.required],
       email: [null, [Validators.required, Validators.email, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{3}$")]],
       phone:[null,[ Validators.required, Validators.pattern("01(0|1|2|5)[0-9]{8}$")]],
       address: [null, Validators.required]
 
     });
-    if(this.id){
-      this.showAddressForm(this.id)
+    if(this.config.data.id){
+      this.showDataForm(this.config.data.id)
     }
   }
   get f() {
     return this.EmployeeForm.controls;
   }
-  showAddressForm(id) {
+  showDataForm(id) {
     this.employeeService.getEmployeeById(id).subscribe(data => {
       this.showData = data
       this.EmployeeForm.patchValue({
@@ -63,10 +68,14 @@ export class EditComponent implements OnInit {
     this.submitted = true;
 
     if (this.EmployeeForm.valid == true) {
-      this.employeeService.updateEmployee(this.id,this.Employee).subscribe(res => {
+      this.employeeService.updateEmployee(this.config.data.id,this.Employee).subscribe(res => {
         // if (res.status == 200) {
           this.messageService.add({severity:'success',
           summary: 'Success', detail: 'Employee Updated Successfully'});
+          setTimeout(() =>{
+            window.location.reload();
+          }, 2000);
+         
         // }
        
         // else {
@@ -74,7 +83,6 @@ export class EditComponent implements OnInit {
         
         // }
       })
-
     }
   }
 }

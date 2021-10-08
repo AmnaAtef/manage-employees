@@ -34,8 +34,8 @@ export class EmployeeService {
   deleteEmployeeDetails(id: number): Observable<any> {
     return this.http.delete(`${this.deleteEmployeeApiUrl}/${id}`);
   }
-  updateEmployee(id: number,editProfile): Observable<Employee> {
-    return this.http.put(`${this.editEmployeeApiUrl}/${id}`, editProfile );
+  updateEmployee(id: number, data:any): Observable<Employee> {
+    return this.http.put(`${this.editEmployeeApiUrl}/${id}`, data );
   }
 
  
